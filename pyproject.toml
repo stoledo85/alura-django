@@ -7,6 +7,7 @@ authors = ["Sander Toledo"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "2.2.6"
+Pillow = "^9.2.0"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^22.6.0", allow-prereleases = true}
