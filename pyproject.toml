@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "alura-django"
-version = "0.1.0"
+version = "0.3.0"
 description = "Projeto para aula de Django do Alura"
 authors = ["Sander Toledo"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "2.2.6"
+Django = "^3.0.3"
 Pillow = "^9.2.0"
 
 [tool.poetry.dev-dependencies]
