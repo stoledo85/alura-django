@@ -11,38 +11,38 @@ def cadastro(request):
         senha = request.POST["password"]
         senha2 = request.POST["password2"]
         if not nome.strip():
-            print('O campo nome não pode ficar em branco')
-            return redirect('cadastro')
+            print("O campo nome não pode ficar em branco")
+            return redirect("cadastro")
             if campo_vazio(nome):
-                messages.error(request,'O campo nome não pode ficar em branco')
-            return redirect('cadastro')
+                messages.error(request, "O campo nome não pode ficar em branco")
+            return redirect("cadastro")
         if campo_vazio(email):
-            messages.error(request,'O campo email não pode ficar em branco')
-            return redirect('cadastro')
+            messages.error(request, "O campo email não pode ficar em branco")
+            return redirect("cadastro")
         if senhas_nao_sao_iguais(senha, senha2):
-            messages.error(request, 'As senhas não são iguais')
-            return redirect('cadastro')
+            messages.error(request, "As senhas não são iguais")
+            return redirect("cadastro")
         if User.objects.filter(email=email).exists():
-            messages.error(request,'Usuário já cadastrado')
-            return redirect('cadastro')
+            messages.error(request, "Usuário já cadastrado")
+            return redirect("cadastro")
         if User.objects.filter(username=nome).exists():
-            messages.error(request,'Usuário já cadastrado')
-            return redirect('cadastro')
+            messages.error(request, "Usuário já cadastrado")
+            return redirect("cadastro")
         user = User.objects.create_user(username=nome, email=email, password=senha)
         user.save()
-        messages.success(request, 'Cadastro realizado com sucesso')
+        messages.success(request, "Cadastro realizado com sucesso")
         return redirect("login")
     else:
         return render(request, "usuarios/cadastro.html")
 
 
 def login(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        senha = request.POST['senha']
+    if request.method == "POST":
+        email = request.POST["email"]
+        senha = request.POST["senha"]
         if campo_vazio(email) or campo_vazio(senha):
-            messages.error(request,'Os campos email e senha não podem ficar em branco')
-            return redirect('login')
+            messages.error(request, "Os campos email e senha não podem ficar em branco")
+            return redirect("login")
         print(email, senha)
         if User.objects.filter(email=email).exists():
             nome = (
@@ -94,13 +94,43 @@ def cria_receita(request):
             foto_receita=foto_receita,
         )
         receita.save()
-        messages.success(request, 'Receita Criada')
+        messages.success(request, "Receita Criada")
         return redirect("dashboard")
     else:
         return render(request, "usuarios/cria_receita.html")
 
+
+def deleta_receita(request, receita_id):
+    receita = get_object_or_404(Receita, pk=receita_id)
+    receita.delete()
+    return redirect("dashboard")
+
+
+def edita_receita(request, receita_id):
+    receita = get_object_or_404(Receita, pk=receita_id)
+    receita_a_editar = {"receita": receita}
+    return render(request, "usuarios/edita_receita.html", receita_a_editar)
+
+
 def campo_vazio(campo):
     return not campo.strip()
 
+
 def senhas_nao_sao_iguais(senha, senha2):
     return senha != senha2
+
+
+def atualiza_receita(request):
+    if request.method == 'POST':
+        receita_id = request.POST['receita_id']
+        r = Receita.objects.get(pk=receita_id)
+        r.nome_receita = request.POST['nome_receita']
+        r.ingredientes = request.POST['ingredientes']
+        r.modo_preparo = request.POST['modo_preparo']
+        r.tempo_preparo = request.POST['tempo_preparo']
+        r.rendimento = request.POST['rendimento']
+        r.categoria = request.POST['categoria']
+        if 'foto_receita' in request.FILES:
+            r.foto_receita = request.FILES['foto_receita']
+        r.save()
+        return redirect('dashboard')
