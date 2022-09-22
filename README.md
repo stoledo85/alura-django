@@ -6,7 +6,7 @@ Projeto utilizado como base para o curso de Django na alura.
 | -------------  | --- |
 | :sparkles: Nome        | **Projeto Blog de Receitas em Django**
 | :label: Tecnologias | python, djngo, html, css (tecnologias utilizadas)
-| :rocket: URL         | https://url-deploy.com.br
+| :rocket: URL         | https://cursos.alura.com.br/formacao-django
 | :fire: Desafio     | https://url-do-desafio.com.br
 
 <!-- Inserir imagem com a #vitrinedev ao final do link -->
